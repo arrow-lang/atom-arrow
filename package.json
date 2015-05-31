@@ -9,10 +9,10 @@
   "homepage": "https://github.com/arrowlang/atom-arrow",
   "repository": {
     "type": "git",
-    "url": "https://github.com/atom/arrowlang/atom-arrow.git"
+    "url": "https://github.com/arrowlang/atom-arrow.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/atom/arrowlang/atom-arrow/issues"
+    "url": "https://github.com/arrowlang/atom-arrow/issues"
   }
 }
