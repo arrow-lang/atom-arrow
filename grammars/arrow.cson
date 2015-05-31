@@ -90,4 +90,39 @@
     'name': 'keyword.control.statement.arrow'
     'match': '\\b(break|continue|return)\\b'
   }
+
+  # String
+  {
+    'include': '#string_quoted_double'
+  }
 ]
+
+'repository':
+  'string_quoted_double':
+    'patterns': [
+      {
+        'begin': '(")'
+        'beginCaptures':
+          '1':
+            'name': 'storage.type.string.arrow'
+          '2':
+            'name': 'punctuation.definition.string.begin.arrow'
+        'end': '((?<=")(")|")|(\\n)'
+        'endCaptures':
+          '1':
+            'name': 'punctuation.definition.string.end.arrow'
+          '2':
+            'name': 'meta.empty-string.double.arrow'
+          '3':
+            'name': 'invalid.illegal.unclosed-string.arrow'
+        'name': 'string.quoted.double.single-line.arrow'
+        'patterns': [
+          # {
+          #   'include': '#escaped_unicode_char'
+          # }
+          # {
+          #   'include': '#escaped_char'
+          # }
+        ]
+      }
+    ]
