@@ -23,7 +23,7 @@
     ]
   }
 
-  # Integer (literals)
+  # Literal: Integer
   {
     'match': '\\b(?i:(0[xX]\\h*))'
     'name': 'constant.numeric.integer.hexadecimal.arrow'
@@ -45,6 +45,12 @@
     'name': 'constant.numeric.integer.arrow'
   }
 
+  # Literal: Boolean
+  {
+    'match': '\\b(true|false)\\b'
+    'name': 'constant.language.arrow'
+  }
+
   # Operators: Arithmetic
   {
     'match': '\\+|\\-|\\*|/|%|&|\\||\\^|~'
@@ -55,9 +61,33 @@
     'name': 'keyword.operator.assignment.arrow'
   }
 
-  # Basic types
+  # Types: Storage
   {
-    'match': '\\b(bool|char|float(32|64)|(u)?int(8|16|32|64|128))\\b'
+    'match': '\\b(float(32|64)|(u)?int(8|16|32|64|128))\\b'
+    'name': 'storage.type.arrow'
+  }
+
+  # Types: Basic
+  {
+    'match': '\\b(str|bool|char|byte|float|int)\\b'
     'name': 'support.type.arrow'
+  }
+
+  # Keyword: Conditional
+  {
+    'name': 'keyword.control.conditional.arrow'
+    'match': '\\b(if|else)\\b'
+  }
+
+  # Keyword: Loop
+  {
+    'name': 'keyword.control.repeat.arrow'
+    'match': '\\b(for|while)\\b'
+  }
+
+  # Keyword: Alter
+  {
+    'name': 'keyword.control.statement.arrow'
+    'match': '\\b(break|continue|return)\\b'
   }
 ]
