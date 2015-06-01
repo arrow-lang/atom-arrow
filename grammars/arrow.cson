@@ -67,6 +67,12 @@
     'name': 'storage.type.arrow'
   }
 
+  # Storage Modifier
+  {
+    'match': '\\b(mutable)\\b'
+    'name': 'storage.modifier.mutable.arrow'
+  }
+
   # Types: Basic
   {
     'match': '\\b(str|bool|char|byte|float|int)\\b'
