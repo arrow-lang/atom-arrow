@@ -67,6 +67,12 @@
     'name': 'storage.type.arrow'
   }
 
+  # Variable
+  {
+    'match': '\\b(let)\\b'
+    'name': 'storage.modifier.slot.arrow'
+  }
+
   # Storage Modifier
   {
     'match': '\\b(mutable)\\b'
@@ -88,7 +94,7 @@
   # Keyword: Loop
   {
     'name': 'keyword.control.repeat.arrow'
-    'match': '\\b(for|while)\\b'
+    'match': '\\b(for|while|loop)\\b'
   }
 
   # Keyword: Alter
@@ -101,9 +107,120 @@
   {
     'include': '#string_quoted_double'
   }
+
+  # Slot Declaration
+  {
+    'begin': '^\\s*(let)\\s+(?=[A-Za-z_][A-Za-z0-9_]*)'
+    'beginCaptures':
+      '1':
+        'name': 'storage.modifier.slot.arrow'
+    'end': '(\\:)|\\=|\\;'
+    'endCaptures':
+      '1':
+        'name': 'keyword.operator.arrow'
+    # 'name': 'meta.variable.arrow'
+    'patterns': [
+      {
+        'include': '$base'
+      }
+      {
+        'begin': '(?=[A-Za-z_][A-Za-z0-9_]*)'
+        'contentName': 'variable.name.arrow'
+        'end': '(?![A-Za-z0-9_])'
+        'patterns': [
+          {
+            'include': '#entity_name'
+          }
+        ]
+      }
+    ]
+  }
+
+  # Function Declaration
+  {
+    'begin': '^\\s*(def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
+    'beginCaptures':
+      '1':
+        'name': 'storage.type.function.arrow'
+    'end': '(\\))'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.definition.parameters.end.arrow'
+    'name': 'meta.function.arrow'
+    'patterns': [
+      {
+        'begin': '(?=[A-Za-z_][A-Za-z0-9_]*)'
+        'contentName': 'entity.name.function.arrow'
+        'end': '(?![A-Za-z0-9_])'
+        'patterns': [
+          {
+            'include': '#entity_name'
+          }
+        ]
+      },
+      {
+        'begin': '(\\()'
+        'beginCaptures':
+          '1':
+            'name': 'punctuation.definition.parameters.begin.arrow'
+        'contentName': 'meta.function.parameters.arrow'
+        'end': '(?=\\))'
+        'endCaptures':
+          '1':
+            'name': 'punctuation.definition.parameters.end.arrow'
+        'patterns': [
+          {
+            'include': '$base'
+          }
+        ]
+      }
+    ]
+  }
+
+  # External Function Declaration
+  {
+    'begin': '^\\s*(extern\\s*def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
+    'beginCaptures':
+      '1':
+        'name': 'storage.type.function.arrow'
+    'end': '(\\))'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.definition.parameters.end.arrow'
+    'name': 'meta.function.arrow'
+    'patterns': [
+      {
+        'begin': '(?=[A-Za-z_][A-Za-z0-9_]*)'
+        'contentName': 'entity.name.function.arrow'
+        'end': '(?![A-Za-z0-9_])'
+        'patterns': [
+          {
+            'include': '#entity_name'
+          }
+        ]
+      },
+      {
+        'begin': '(\\()'
+        'beginCaptures':
+          '1':
+            'name': 'punctuation.definition.parameters.begin.arrow'
+        'contentName': 'meta.function.parameters.arrow'
+        'end': '(?=\\))'
+        'endCaptures':
+          '1':
+            'name': 'punctuation.definition.parameters.end.arrow'
+        'patterns': [
+          {
+            'include': '$base'
+          }
+        ]
+      }
+    ]
+  }
 ]
 
 'repository':
+
   'string_quoted_double':
     'patterns': [
       {
@@ -132,3 +249,20 @@
         ]
       }
     ]
+
+  'entity_name':
+    'patterns': [
+      {
+        'include': '#illegal_names'
+      }
+      {
+        'include': '#generic_name'
+      }
+    ]
+
+  'generic_name':
+    'match': '[A-Za-z_][A-Za-z0-9_]*'
+
+  'illegal_names':
+    'match': '\\b(and|as|break|class|continue|def|else|for|from|global|if|import|in|is|not|or|return|while|loop|yield)\\b'
+    'name': 'invalid.illegal.name.arrow'
