@@ -85,6 +85,16 @@
     'name': 'support.type.arrow'
   }
 
+  # Keyword: Import
+  {
+    'captures':
+      '1':
+        'name': 'keyword.control.import.arrow'
+      '2':
+        'name': 'keyword.control.import.from.arrow'
+    'match': '\\b(?:(import)|(from))\\b'
+  }
+
   # Keyword: Conditional
   {
     'name': 'keyword.control.conditional.arrow'
@@ -101,6 +111,14 @@
   {
     'name': 'keyword.control.statement.arrow'
     'match': '\\b(break|continue|return)\\b'
+  }
+
+  # Keyword: Other
+  {
+    'captures':
+      '1':
+        'name': 'keyword.other.arrow'
+    'match': '\\b(as)\\b'
   }
 
   # String
@@ -138,50 +156,13 @@
 
   # Function Declaration
   {
-    'begin': '^\\s*(def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
+    'begin': '^\\s*(export)?\\s*(extern)?\\s*(def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
     'beginCaptures':
       '1':
-        'name': 'storage.type.function.arrow'
-    'end': '(\\))'
-    'endCaptures':
-      '1':
-        'name': 'punctuation.definition.parameters.end.arrow'
-    'name': 'meta.function.arrow'
-    'patterns': [
-      {
-        'begin': '(?=[A-Za-z_][A-Za-z0-9_]*)'
-        'contentName': 'entity.name.function.arrow'
-        'end': '(?![A-Za-z0-9_])'
-        'patterns': [
-          {
-            'include': '#entity_name'
-          }
-        ]
-      },
-      {
-        'begin': '(\\()'
-        'beginCaptures':
-          '1':
-            'name': 'punctuation.definition.parameters.begin.arrow'
-        'contentName': 'meta.function.parameters.arrow'
-        'end': '(?=\\))'
-        'endCaptures':
-          '1':
-            'name': 'punctuation.definition.parameters.end.arrow'
-        'patterns': [
-          {
-            'include': '$base'
-          }
-        ]
-      }
-    ]
-  }
-
-  # External Function Declaration
-  {
-    'begin': '^\\s*(extern\\s*def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
-    'beginCaptures':
-      '1':
+        'name': 'storage.modifier.function.arrow'
+      '2':
+        'name': 'storage.modifier.function.arrow'
+      '3':
         'name': 'storage.type.function.arrow'
     'end': '(\\))'
     'endCaptures':
