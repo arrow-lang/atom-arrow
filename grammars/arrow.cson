@@ -198,6 +198,26 @@
       }
     ]
   }
+
+  # Structure
+   {
+    'begin': '^\\s*(struct)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\{)'
+    'beginCaptures':
+      '1':
+        'name': 'storage.type.struct.arrow'
+    # NOTE: This is `class` as autocomplete wants that
+    'contentName': 'entity.name.type.class.arrow'
+    'end': '\\s*(\\{)'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.section.struct.begin.arrow'
+    'name': 'meta.struct.arrow'
+    'patterns': [
+      {
+        'include': '#entity_name'
+      }
+    ]
+  }
 ]
 
 'repository':
