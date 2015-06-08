@@ -51,9 +51,17 @@
     'name': 'constant.language.arrow'
   }
 
-  # Operators: Arithmetic
+  # Operators
   {
-    'match': '\\+|\\-|\\*|/|%|&|\\||\\^|~'
+    'match': '<\\=|>\\=|\\=\\=|<|>|\\!\\='
+    'name': 'keyword.operator.comparison.arrow'
+  }
+  {
+    'match': '\\+\\=|-\\=|\\*\\=|/\\=|%\\=|&\\=|\\|\\=|\\^\\='
+    'name': 'keyword.operator.assignment.augmented.arrow'
+  }
+  {
+    'match': '\\+|\\-|\\*|\\*\\*|/|%|&|\\||\\^|!'
     'name': 'keyword.operator.arithmetic.arrow'
   }
   {
