@@ -134,6 +134,14 @@
     'include': '#string_quoted_double'
   }
 
+  # Built-in language constants
+  {
+    'captures':
+      '1':
+        'name': 'constant.language.arrow'
+    'match': '\\b(None)\\b'
+  }
+
   # Slot Declaration
   {
     'begin': '^\\s*(let)\\s+(?=[A-Za-z_][A-Za-z0-9_]*)'
