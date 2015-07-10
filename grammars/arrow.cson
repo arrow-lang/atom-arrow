@@ -37,6 +37,10 @@
     'name': 'constant.numeric.integer.binary.arrow'
   }
   {
+    'match': '\\b(?i:(\\d+\\.\\d*(e[\\-\\+]?\\d+)?))(?=[^a-zA-Z_])'
+    'name': 'constant.numeric.float.arrow'
+  }
+  {
     'match': '\\b(?i:(\\d+e[\\-\\+]?\\d+))'
     'name': 'constant.numeric.float.arrow'
   }
