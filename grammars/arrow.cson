@@ -45,7 +45,7 @@
     'name': 'constant.numeric.float.arrow'
   }
   {
-    'match': '\\b([1-9]+[0-9]*|0)'
+    'match': '\\b(?:(\\d+))'
     'name': 'constant.numeric.integer.arrow'
   }
 
@@ -77,12 +77,6 @@
   {
     'match': '\\b(float(32|64)|(u)?int(8|16|32|64|128))\\b'
     'name': 'storage.type.arrow'
-  }
-
-  # Variable
-  {
-    'match': '\\b(let)\\b'
-    'name': 'storage.modifier.slot.arrow'
   }
 
   # Storage Modifier
@@ -143,16 +137,20 @@
     'captures':
       '1':
         'name': 'constant.language.arrow'
-    'match': '\\b(None)\\b'
+    'match': '\\b(None|_)\\b'
   }
 
   # Slot Declaration
   {
-    'begin': '^\\s*(let)\\s+(?=[A-Za-z_][A-Za-z0-9_]*)'
+    'begin': '^\\s*(export)?\\s*(extern)?\\s*(let)\\s+'
     'beginCaptures':
       '1':
         'name': 'storage.modifier.slot.arrow'
-    'end': '(\\:)|\\=|\\;'
+      '2':
+        'name': 'storage.modifier.slot.arrow'
+      '3':
+        'name': 'storage.modifier.slot.arrow'
+    'end': '(\\:|\\=|\\;)'
     'endCaptures':
       '1':
         'name': 'keyword.operator.arrow'
@@ -172,6 +170,12 @@
         ]
       }
     ]
+  }
+
+  # Variable
+  {
+    'match': '\\b(let)\\b'
+    'name': 'storage.modifier.slot.arrow'
   }
 
   # Function Declaration
