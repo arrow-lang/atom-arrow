@@ -68,6 +68,10 @@
     'match': '\\='
     'name': 'keyword.operator.assignment.arrow'
   }
+  {
+    'match': '\\:'
+    'name': 'keyword.operator.annotate.arrow'
+  }
 
   # Types: Storage
   {
@@ -75,58 +79,16 @@
     'name': 'storage.type.arrow'
   }
 
-  # Variable
-  {
-    'match': '\\b(let)\\b'
-    'name': 'storage.modifier.slot.arrow'
-  }
-
   # Storage Modifier
   {
-    'match': '\\b(mutable)\\b'
-    'name': 'storage.modifier.mutable.arrow'
+    'match': '\\b(mutable|extern|export)\\b'
+    'name': 'storage.modifier.arrow'
   }
 
   # Types: Basic
   {
     'match': '\\b(str|bool|char|byte|float|int)\\b'
     'name': 'support.type.arrow'
-  }
-
-  # Keyword: Import
-  {
-    'captures':
-      '1':
-        'name': 'keyword.control.import.arrow'
-      '2':
-        'name': 'keyword.control.import.from.arrow'
-    'match': '\\b(?:(import)|(from))\\b'
-  }
-
-  # Keyword: Conditional
-  {
-    'name': 'keyword.control.conditional.arrow'
-    'match': '\\b(if|else)\\b'
-  }
-
-  # Keyword: Loop
-  {
-    'name': 'keyword.control.repeat.arrow'
-    'match': '\\b(for|while|loop)\\b'
-  }
-
-  # Keyword: Alter
-  {
-    'name': 'keyword.control.statement.arrow'
-    'match': '\\b(break|continue|return)\\b'
-  }
-
-  # Keyword: Other
-  {
-    'captures':
-      '1':
-        'name': 'keyword.other.arrow'
-    'match': '\\b(as)\\b'
   }
 
   # String
@@ -148,7 +110,7 @@
     'beginCaptures':
       '1':
         'name': 'storage.modifier.slot.arrow'
-    'end': '(\\:)|\\=|\\;'
+    'end': '(\\:)|\\=|\\;|\n'
     'endCaptures':
       '1':
         'name': 'keyword.operator.arrow'
@@ -172,7 +134,7 @@
 
   # Function Declaration
   {
-    'begin': '^\\s*(export)?\\s*(extern)?\\s*(def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
+    'begin': '\\s*(def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
     'beginCaptures':
       '1':
         'name': 'storage.modifier.function.arrow'
@@ -220,7 +182,7 @@
     'begin': '^\\s*(struct)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\{)'
     'beginCaptures':
       '1':
-        'name': 'storage.type.struct.arrow'
+        'name': 'storage.modifier.struct.arrow'
     # NOTE: This is `class` as autocomplete wants that
     'contentName': 'entity.name.type.class.arrow'
     'end': '\\s*(\\{)'
@@ -233,6 +195,84 @@
         'include': '#entity_name'
       }
     ]
+  }
+
+  {
+    'begin': '(?=[A-Za-z_][A-Za-z0-9_]*(?:\\.[a-zA-Z_][a-zA-Z_0-9]*)*\\s*\\()'
+    'end': '(\\))'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.definition.arguments.end.arrow'
+    # 'name': 'meta.function-call.arrow'
+    'patterns': [
+      {
+        'begin': '(?=[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*\\s*\\()'
+        'end': '(?=\\s*\\()'
+        'name': 'meta.function-call.arrow'
+        'patterns': [
+          {
+            'include': '#entity_name'
+          }
+        ]
+      },
+      {
+        'include': '$base'
+      }
+    ]
+  }
+
+  # Keywords: Slot
+  {
+    'match': '\\b(let)\\b'
+    'name': 'storage.modifier.slot.arrow'
+  }
+
+  # Keywords: Function
+  {
+    'match': '\\b(def)\\b'
+    'name': 'storage.modifier.function.arrow'
+  }
+
+  # Keywords: Struct
+  {
+    'match': '\\b(struct)\\b'
+    'name': 'storage.modifier.class.arrow'
+  }
+
+  # Keyword: Import
+  {
+    'captures':
+      '1':
+        'name': 'keyword.control.import.arrow'
+      '2':
+        'name': 'keyword.control.import.from.arrow'
+    'match': '\\b(?:(import)|(from))\\b'
+  }
+
+  # Keyword: Conditional
+  {
+    'name': 'keyword.control.conditional.arrow'
+    'match': '\\b(if|else)\\b'
+  }
+
+  # Keyword: Loop
+  {
+    'name': 'keyword.control.repeat.arrow'
+    'match': '\\b(for|while|loop)\\b'
+  }
+
+  # Keyword: Alter
+  {
+    'name': 'keyword.control.statement.arrow'
+    'match': '\\b(break|continue|return)\\b'
+  }
+
+  # Keyword: Other
+  {
+    'captures':
+      '1':
+        'name': 'keyword.other.arrow'
+    'match': '\\b(as)\\b'
   }
 ]
 
