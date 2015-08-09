@@ -23,29 +23,48 @@
     ]
   }
 
+  # Shebang
+  {
+    'begin': '^(?=#\\!)'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.whitespace.comment.leading.arrow'
+    'end': '(?!\\G)'
+    'patterns': [
+      {
+        'begin': '#\\!'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.comment.arrow'
+        'end': '\\n'
+        'name': 'comment.shebang.arrow'
+      }
+    ]
+  }
+
   # Literal: Integer
   {
-    'match': '\\b(?i:(0[xX]\\h*))'
+    'match': '\\b(?i:(0[xX_]\\h*))'
     'name': 'constant.numeric.integer.hexadecimal.arrow'
   }
   {
-    'match': '\\b(?i:(0[oO][0-7]+))'
+    'match': '\\b(?i:(0[oO][0-7_]+))'
     'name': 'constant.numeric.integer.octal.arrow'
   }
   {
-    'match': '\\b(?i:(0[bB][01]+))',
+    'match': '\\b(?i:(0[bB][01_]+))',
     'name': 'constant.numeric.integer.binary.arrow'
   }
   {
-    'match': '\\b(?i:(\\d+\\.\\d*(e[\\-\\+]?\\d+)?))(?=[^a-zA-Z_])'
+    'match': '\\b(?i:(\\d[0-9_]*\\.\\d[0-9_]*(e[\\-\\+]?\\d[0-9_]*)?))(?=[^a-zA-Z_])'
     'name': 'constant.numeric.float.arrow'
   }
   {
-    'match': '\\b(?i:(\\d+e[\\-\\+]?\\d+))'
+    'match': '\\b(?i:(\\d[0-9_]*e[\\-\\+]?\\d[0-9_]*))'
     'name': 'constant.numeric.float.arrow'
   }
   {
-    'match': '\\b(?:(\\d+))'
+    'match': '\\b(?:(\\d[0-9_]*))'
     'name': 'constant.numeric.integer.arrow'
   }
 
@@ -83,12 +102,6 @@
     'name': 'storage.type.arrow'
   }
 
-  # Storage Modifier
-  {
-    'match': '\\b(mutable|extern|export)\\b'
-    'name': 'storage.modifier.arrow'
-  }
-
   # Types: Basic
   {
     'match': '\\b(str|bool|char|byte|float|int)\\b'
@@ -118,7 +131,7 @@
         'name': 'storage.modifier.slot.arrow'
       '3':
         'name': 'storage.modifier.slot.arrow'
-    'end': '(\\:|\\=|\\;|\n)'
+    'end': '(\\:|\\=|\\;|\\n)'
     'endCaptures':
       '1':
         'name': 'keyword.operator.arrow'
@@ -138,6 +151,12 @@
         ]
       }
     ]
+  }
+
+  # Storage Modifier
+  {
+    'match': '\\b(mutable|extern|export)\\b'
+    'name': 'storage.modifier.arrow'
   }
 
   # Variable
@@ -242,13 +261,13 @@
   # Keyword: Conditional
   {
     'name': 'keyword.control.conditional.arrow'
-    'match': '\\b(if|else)\\b'
+    'match': '\\b(if|else|unless)\\b'
   }
 
   # Keyword: Loop
   {
     'name': 'keyword.control.repeat.arrow'
-    'match': '\\b(for|while|loop)\\b'
+    'match': '\\b(for|while|until|loop)\\b'
   }
 
   # Keyword: Alter
@@ -267,6 +286,34 @@
 ]
 
 'repository':
+
+  'escaped_char':
+    'captures':
+      '1':
+        'name': 'constant.character.escape.hex.arrow'
+      '2':
+        'name': 'constant.character.escape.newline.arrow'
+      '3':
+        'name': 'constant.character.escape.backslash.arrow'
+      '4':
+        'name': 'constant.character.escape.double-quote.arrow'
+      '5':
+        'name': 'constant.character.escape.single-quote.arrow'
+      '6':
+        'name': 'constant.character.escape.bell.arrow'
+      '7':
+        'name': 'constant.character.escape.backspace.arrow'
+      '8':
+        'name': 'constant.character.escape.formfeed.arrow'
+      '9':
+        'name': 'constant.character.escape.linefeed.arrow'
+      '10':
+        'name': 'constant.character.escape.return.arrow'
+      '11':
+        'name': 'constant.character.escape.tab.arrow'
+      '12':
+        'name': 'constant.character.escape.vertical-tab.arrow'
+    'match': '(\\\\x[0-9A-Fa-f]{2})|(\\\\\\n)|(\\\\\\\\)|(\\\\\\")|(\\\\\')|(\\\\a)|(\\\\b)|(\\\\f)|(\\\\n)|(\\\\r)|(\\\\t)|(\\\\v)'
 
   'string_quoted_double':
     'patterns': [
@@ -287,12 +334,9 @@
             'name': 'invalid.illegal.unclosed-string.arrow'
         'name': 'string.quoted.double.single-line.arrow'
         'patterns': [
-          # {
-          #   'include': '#escaped_unicode_char'
-          # }
-          # {
-          #   'include': '#escaped_char'
-          # }
+          {
+            'include': '#escaped_char'
+          }
         ]
       }
     ]
@@ -311,5 +355,5 @@
     'match': '[A-Za-z_][A-Za-z0-9_]*'
 
   'illegal_names':
-    'match': '\\b(and|as|break|class|continue|def|else|for|from|global|if|import|in|is|not|or|return|while|loop|yield)\\b'
+    'match': '\\b(and|as|break|class|continue|def|else|for|from|global|if|import|in|is|not|or|return|while|until|unless|loop|yield)\\b'
     'name': 'invalid.illegal.name.arrow'
