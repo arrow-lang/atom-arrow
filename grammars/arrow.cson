@@ -95,6 +95,10 @@
     'match': '\\:'
     'name': 'keyword.operator.annotate.arrow'
   }
+  {
+    'match': '\\b(and|in|not|or)\\b'
+    'name': 'keyword.operator.logical.arrow'
+  }
 
   # Types: Storage
   {
@@ -131,10 +135,10 @@
         'name': 'storage.modifier.slot.arrow'
       '3':
         'name': 'storage.modifier.slot.arrow'
-    'end': '(\\:|\\=|\\;|\\n)'
+    'end': '(\\:)|(\\=)|(\\;)|(\\n)'
     'endCaptures':
-      '1':
-        'name': 'keyword.operator.arrow'
+      '2':
+        'name': 'keyword.operator.assignment.arrow'
     # 'name': 'meta.variable.arrow'
     'patterns': [
       {
@@ -321,8 +325,6 @@
         'begin': '(")'
         'beginCaptures':
           '1':
-            'name': 'storage.type.string.arrow'
-          '2':
             'name': 'punctuation.definition.string.begin.arrow'
         'end': '((?<=")(")|")|(\\n)'
         'endCaptures':
