@@ -116,6 +116,19 @@
   {
     'include': '#string_quoted_double'
   }
+  {
+    'include': '#string_quoted_single'
+  }
+
+  # Self
+  {
+    'match': '\\b(self)\\b'
+    'name': 'variable.language.arrow'
+  }
+  {
+    'match': '\\b(Self)\\b'
+    'name': 'storage.type.arrow'
+  }
 
   # Built-in language constants
   {
@@ -157,12 +170,6 @@
     ]
   }
 
-  # Storage Modifier
-  {
-    'match': '\\b(mutable|extern|export)\\b'
-    'name': 'storage.modifier.arrow'
-  }
-
   # Variable
   {
     'match': '\\b(let)\\b'
@@ -171,7 +178,7 @@
 
   # Function Declaration
   {
-    'begin': '\\s*(def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
+    'begin': '^\\s*(export)?\\s*(extern)?\\s*(def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
     'beginCaptures':
       '1':
         'name': 'storage.modifier.function.arrow'
@@ -215,11 +222,13 @@
   }
 
   # Structure
-   {
-    'begin': '^\\s*(struct)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\{)'
+  {
+    'begin': '^\\s*(export)?\\s*(struct)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\{)'
     'beginCaptures':
       '1':
         'name': 'storage.modifier.struct.arrow'
+      '2':
+        'name': 'storage.type.struct.arrow'
     # NOTE: This is `class` as autocomplete wants that
     'contentName': 'entity.name.type.class.arrow'
     'end': '\\s*(\\{)'
@@ -227,6 +236,48 @@
       '1':
         'name': 'punctuation.section.struct.begin.arrow'
     'name': 'meta.struct.arrow'
+    'patterns': [
+      {
+        'include': '#entity_name'
+      }
+    ]
+  }
+
+  # Trait
+  {
+    'begin': '^\\s*(export)?\\s*(trait)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\{)'
+    'beginCaptures':
+      '1':
+        'name': 'storage.modifier.trait.arrow'
+      '2':
+        'name': 'storage.type.trait.arrow'
+    # NOTE: This is `class` as autocomplete wants that
+    'contentName': 'entity.name.type.class.arrow'
+    'end': '\\s*(\\{)'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.section.trait.begin.arrow'
+    'name': 'meta.trait.arrow'
+    'patterns': [
+      {
+        'include': '#entity_name'
+      }
+    ]
+  }
+
+  # Implement (attached/member functions)
+  {
+    'begin': '^\\s*(implement)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\{)'
+    'beginCaptures':
+      '1':
+        'name': 'keyword.arrow'
+    # NOTE: This is `class` as autocomplete wants that
+    'contentName': 'entity.name.type.class.arrow'
+    'end': '\\s*(\\{)'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.section.implement.begin.arrow'
+    'name': 'meta.implement.arrow'
     'patterns': [
       {
         'include': '#entity_name'
@@ -243,13 +294,25 @@
   # Keywords: Function
   {
     'match': '\\b(def)\\b'
-    'name': 'storage.modifier.function.arrow'
+    'name': 'storage.type.function.arrow'
   }
 
-  # Keywords: Struct
+  # Keywords: Struct/Trait
   {
-    'match': '\\b(struct)\\b'
-    'name': 'storage.modifier.class.arrow'
+    'match': '\\b(struct|trait)\\b'
+    'name': 'storage.type.class.arrow'
+  }
+
+  # Keywords: Implement
+  {
+    'match': '\\b(implement)\\b'
+    'name': 'keyword.arrow'
+  }
+
+  # Storage Modifier
+  {
+    'match': '\\b(mutable|extern|export)\\b'
+    'name': 'storage.modifier.arrow'
   }
 
   # Keyword: Import
@@ -327,6 +390,30 @@
           '1':
             'name': 'punctuation.definition.string.begin.arrow'
         'end': '((?<=")(")|")|(\\n)'
+        'endCaptures':
+          '1':
+            'name': 'punctuation.definition.string.end.arrow'
+          '2':
+            'name': 'meta.empty-string.double.arrow'
+          '3':
+            'name': 'invalid.illegal.unclosed-string.arrow'
+        'name': 'string.quoted.double.single-line.arrow'
+        'patterns': [
+          {
+            'include': '#escaped_char'
+          }
+        ]
+      }
+    ]
+
+  'string_quoted_single':
+    'patterns': [
+      {
+        'begin': '(\')'
+        'beginCaptures':
+          '1':
+            'name': 'punctuation.definition.string.begin.arrow'
+        'end': '((?<=\')(\')|\')|(\\n)'
         'endCaptures':
           '1':
             'name': 'punctuation.definition.string.end.arrow'
