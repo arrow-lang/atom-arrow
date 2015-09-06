@@ -285,6 +285,28 @@
     ]
   }
 
+  # Use (type alias)
+  {
+    'begin': '^\\s*(export)?\\s*(use)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\=)'
+    'beginCaptures':
+      '1':
+        'name': 'storage.modifier.use.arrow'
+      '2':
+        'name': 'keyword.use.arrow'
+    # NOTE: This is `class` as autocomplete wants that
+    'contentName': 'entity.name.type.class.arrow'
+    'end': '\\s*(\\=)'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.section.use.begin.arrow'
+    'name': 'meta.use.arrow'
+    'patterns': [
+      {
+        'include': '#entity_name'
+      }
+    ]
+  }
+
   # Keywords: Slot
   {
     'match': '\\b(let)\\b'
@@ -295,6 +317,12 @@
   {
     'match': '\\b(def)\\b'
     'name': 'storage.type.function.arrow'
+  }
+
+  # Keywords: Type
+  {
+    'match': '\\b(type)\\b'
+    'name': 'support.function.builtin.arrow'
   }
 
   # Keywords: Struct/Trait
@@ -348,7 +376,7 @@
     'captures':
       '1':
         'name': 'keyword.other.arrow'
-    'match': '\\b(as)\\b'
+    'match': '\\b(as|use)\\b'
   }
 ]
 
