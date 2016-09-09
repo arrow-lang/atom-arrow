@@ -1,11 +1,26 @@
-'scopeName': 'source.as'
+'scopeName': 'source.arrow'
 'fileTypes': [
   'as'
 ]
 'name': 'Arrow'
 'patterns': [
-  # General (line) comment
   {
+    'include': '#comment_line'
+  }
+  {
+    'include': '#literal_integer'
+  }
+  {
+    'include': '#literal_bool'
+  }
+  {
+    'include': '#variable'
+  }
+]
+
+'repository':
+  # Line Comment `// ...`
+  'comment_line':
     'begin': '(^[ \\t]+)?(?=//)'
     'beginCaptures':
       '1':
@@ -21,456 +36,62 @@
         'name': 'comment.line.arrow'
       }
     ]
-  }
-
-  # Shebang
-  {
-    'begin': '^(?=#\\!)'
-    'beginCaptures':
-      '1':
-        'name': 'punctuation.whitespace.comment.leading.arrow'
-    'end': '(?!\\G)'
+  # Integer
+  'literal_integer':
     'patterns': [
+      # Integer: Hexadecimal
       {
-        'begin': '#\\!'
-        'beginCaptures':
-          '0':
-            'name': 'punctuation.definition.comment.arrow'
-        'end': '\\n'
-        'name': 'comment.shebang.arrow'
+        'match': '\\b(?i:(0x[a-z0-9]([a-z0-9]|_(?!\\b))*))'
+        'name': 'constant.numeric.integer.hexadecimal.arrow'
+      }
+      # Integer: Binary
+      {
+        'match': '\\b(?i:(0b[0-1]([0-1]|_(?!\\b))*))'
+        'name': 'constant.numeric.integer.binary.arrow'
+      }
+      # Integer: Octal
+      {
+        'match': '\\b(?i:(0o[0-7]([0-7]|_(?!\\b))*))'
+        'name': 'constant.numeric.integer.octal.arrow'
+      }
+      # Integer: Octal
+      {
+        'match': '\\b([0-9]([0-9]|_(?!\\b))*)'
+        'name': 'constant.numeric.integer.octal.arrow'
       }
     ]
-  }
-
-  # Literal: Integer
-  {
-    'match': '\\b(?i:(0[xX_]\\h*))'
-    'name': 'constant.numeric.integer.hexadecimal.arrow'
-  }
-  {
-    'match': '\\b(?i:(0[oO][0-7_]+))'
-    'name': 'constant.numeric.integer.octal.arrow'
-  }
-  {
-    'match': '\\b(?i:(0[bB][01_]+))',
-    'name': 'constant.numeric.integer.binary.arrow'
-  }
-  {
-    'match': '\\b(?i:(\\d[0-9_]*\\.\\d[0-9_]*(e[\\-\\+]?\\d[0-9_]*)?))(?=[^a-zA-Z_])'
-    'name': 'constant.numeric.float.arrow'
-  }
-  {
-    'match': '\\b(?i:(\\d[0-9_]*e[\\-\\+]?\\d[0-9_]*))'
-    'name': 'constant.numeric.float.arrow'
-  }
-  {
-    'match': '\\b(?:(\\d[0-9_]*))'
-    'name': 'constant.numeric.integer.arrow'
-  }
-
-  # Literal: Boolean
-  {
+  # Boolean: true | false
+  'literal_bool':
     'match': '\\b(true|false)\\b'
-    'name': 'constant.language.arrow'
-  }
-
-  # Operators
-  {
-    'match': '<\\=|>\\=|\\=\\=|<|>|\\!\\='
-    'name': 'keyword.operator.comparison.arrow'
-  }
-  {
-    'match': '\\+\\=|-\\=|\\*\\=|/\\=|%\\=|&\\=|\\|\\=|\\^\\='
-    'name': 'keyword.operator.assignment.augmented.arrow'
-  }
-  {
-    'match': '\\+|\\-|\\*|\\*\\*|/|%|&|\\||\\^|!'
-    'name': 'keyword.operator.arithmetic.arrow'
-  }
-  {
-    'match': '\\='
-    'name': 'keyword.operator.assignment.arrow'
-  }
-  {
-    'match': '\\:'
-    'name': 'keyword.operator.annotate.arrow'
-  }
-  {
-    'match': '\\b(and|in|not|or)\\b'
-    'name': 'keyword.operator.logical.arrow'
-  }
-
-  # Types: Storage
-  {
-    'match': '\\b(float(32|64)|(u)?int(8|16|32|64|128))\\b'
-    'name': 'storage.type.arrow'
-  }
-
-  # Types: Basic
-  {
-    'match': '\\b(str|bool|char|byte|float|int)\\b'
-    'name': 'support.type.arrow'
-  }
-
-  # String
-  {
-    'include': '#string_quoted_double'
-  }
-  {
-    'include': '#string_quoted_single'
-  }
-
-  # Self
-  {
-    'match': '\\b(self)\\b'
-    'name': 'variable.language.arrow'
-  }
-  {
-    'match': '\\b(Self)\\b'
-    'name': 'storage.type.arrow'
-  }
-
-  # Built-in language constants
-  {
-    'captures':
-      '1':
-        'name': 'constant.language.arrow'
-    'match': '\\b(None|_)\\b'
-  }
-
-  # Slot Declaration
-  {
-    'begin': '^\\s*(export)?\\s*(extern)?\\s*(let)\\s+'
-    'beginCaptures':
-      '1':
-        'name': 'storage.modifier.slot.arrow'
-      '2':
-        'name': 'storage.modifier.slot.arrow'
-      '3':
-        'name': 'storage.modifier.slot.arrow'
-    'end': '(\\:)|(\\=)|(\\;)|(\\n)'
-    'endCaptures':
-      '2':
-        'name': 'keyword.operator.assignment.arrow'
-    # 'name': 'meta.variable.arrow'
-    'patterns': [
-      {
-        'include': '$base'
-      }
-      {
-        'begin': '(?=[A-Za-z_][A-Za-z0-9_]*)'
-        'contentName': 'variable.name.arrow'
-        'end': '(?![A-Za-z0-9_])'
-        'patterns': [
-          {
-            'include': '#entity_name'
-          }
-        ]
-      }
-    ]
-  }
-
+    'name': 'constant.language.boolean.$1.arrow'
   # Variable
-  {
-    'match': '\\b(let)\\b'
-    'name': 'storage.modifier.slot.arrow'
-  }
-
-  # Function Declaration
-  {
-    'begin': '^\\s*(export)?\\s*(extern)?\\s*(def)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*\\()'
+  'variable':
+    'begin': '^\\s*(let)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
     'beginCaptures':
-      '1':
-        'name': 'storage.modifier.function.arrow'
-      '2':
-        'name': 'storage.modifier.function.arrow'
-      '3':
-        'name': 'storage.type.function.arrow'
-    'end': '(\\))'
-    'endCaptures':
-      '1':
-        'name': 'punctuation.definition.parameters.end.arrow'
-    'name': 'meta.function.arrow'
+      '1': 'name': 'keyword.let.arrow'
+      '2': 'name': 'variable.other.arrow'
+    'end': '(?=;|$)'
     'patterns': [
       {
-        'begin': '(?=[A-Za-z_][A-Za-z0-9_]*)'
-        'contentName': 'entity.name.function.arrow'
-        'end': '(?![A-Za-z0-9_])'
-        'patterns': [
-          {
-            'include': '#entity_name'
-          }
-        ]
-      },
-      {
-        'begin': '(\\()'
+        'begin': '\\s*(:)\\s*'
         'beginCaptures':
-          '1':
-            'name': 'punctuation.definition.parameters.begin.arrow'
-        'contentName': 'meta.function.parameters.arrow'
-        'end': '(?=\\))'
-        'endCaptures':
-          '1':
-            'name': 'punctuation.definition.parameters.end.arrow'
+          '1': 'name': 'punctuation.seperator.arrow'
+        'end': '(?=\\=|;|$)'
         'patterns': [
           {
-            'include': '$base'
+            'include': "$self"
           }
         ]
       }
-    ]
-  }
-
-  # Structure
-  {
-    'begin': '^\\s*(export)?\\s*(struct)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\{)'
-    'beginCaptures':
-      '1':
-        'name': 'storage.modifier.struct.arrow'
-      '2':
-        'name': 'storage.type.struct.arrow'
-    # NOTE: This is `class` as autocomplete wants that
-    'contentName': 'entity.name.type.class.arrow'
-    'end': '\\s*(\\{)'
-    'endCaptures':
-      '1':
-        'name': 'punctuation.section.struct.begin.arrow'
-    'name': 'meta.struct.arrow'
-    'patterns': [
       {
-        'include': '#entity_name'
-      }
-    ]
-  }
-
-  # Trait
-  {
-    'begin': '^\\s*(export)?\\s*(trait)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\{)'
-    'beginCaptures':
-      '1':
-        'name': 'storage.modifier.trait.arrow'
-      '2':
-        'name': 'storage.type.trait.arrow'
-    # NOTE: This is `class` as autocomplete wants that
-    'contentName': 'entity.name.type.class.arrow'
-    'end': '\\s*(\\{)'
-    'endCaptures':
-      '1':
-        'name': 'punctuation.section.trait.begin.arrow'
-    'name': 'meta.trait.arrow'
-    'patterns': [
-      {
-        'include': '#entity_name'
-      }
-    ]
-  }
-
-  # Implement (attached/member functions)
-  {
-    'begin': '^\\s*(implement)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\{)'
-    'beginCaptures':
-      '1':
-        'name': 'keyword.arrow'
-    # NOTE: This is `class` as autocomplete wants that
-    'contentName': 'entity.name.type.class.arrow'
-    'end': '\\s*(\\{)'
-    'endCaptures':
-      '1':
-        'name': 'punctuation.section.implement.begin.arrow'
-    'name': 'meta.implement.arrow'
-    'patterns': [
-      {
-        'include': '#entity_name'
-      }
-    ]
-  }
-
-  # Use (type alias)
-  {
-    'begin': '^\\s*(export)?\\s*(use)\\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\\s*\\=)'
-    'beginCaptures':
-      '1':
-        'name': 'storage.modifier.use.arrow'
-      '2':
-        'name': 'keyword.use.arrow'
-    # NOTE: This is `class` as autocomplete wants that
-    'contentName': 'entity.name.type.class.arrow'
-    'end': '\\s*(\\=)'
-    'endCaptures':
-      '1':
-        'name': 'punctuation.section.use.begin.arrow'
-    'name': 'meta.use.arrow'
-    'patterns': [
-      {
-        'include': '#entity_name'
-      }
-    ]
-  }
-
-  # Keywords: Slot
-  {
-    'match': '\\b(let)\\b'
-    'name': 'storage.modifier.slot.arrow'
-  }
-
-  # Keywords: Function
-  {
-    'match': '\\b(def)\\b'
-    'name': 'storage.type.function.arrow'
-  }
-
-  # Keywords: Type
-  {
-    'match': '\\b(type)\\b'
-    'name': 'support.function.builtin.arrow'
-  }
-
-  # Keywords: Struct/Trait
-  {
-    'match': '\\b(struct|trait)\\b'
-    'name': 'storage.type.class.arrow'
-  }
-
-  # Keywords: Implement
-  {
-    'match': '\\b(implement)\\b'
-    'name': 'keyword.arrow'
-  }
-
-  # Storage Modifier
-  {
-    'match': '\\b(mutable|extern|export)\\b'
-    'name': 'storage.modifier.arrow'
-  }
-
-  # Keyword: Import
-  {
-    'captures':
-      '1':
-        'name': 'keyword.control.import.arrow'
-      '2':
-        'name': 'keyword.control.import.from.arrow'
-    'match': '\\b(?:(import)|(from))\\b'
-  }
-
-  # Keyword: Conditional
-  {
-    'name': 'keyword.control.conditional.arrow'
-    'match': '\\b(if|else|unless)\\b'
-  }
-
-  # Keyword: Loop
-  {
-    'name': 'keyword.control.repeat.arrow'
-    'match': '\\b(for|while|until|loop)\\b'
-  }
-
-  # Keyword: Alter
-  {
-    'name': 'keyword.control.statement.arrow'
-    'match': '\\b(break|continue|return)\\b'
-  }
-
-  # Keyword: Other
-  {
-    'captures':
-      '1':
-        'name': 'keyword.other.arrow'
-    'match': '\\b(as|use)\\b'
-  }
-]
-
-'repository':
-
-  'escaped_char':
-    'captures':
-      '1':
-        'name': 'constant.character.escape.hex.arrow'
-      '2':
-        'name': 'constant.character.escape.newline.arrow'
-      '3':
-        'name': 'constant.character.escape.backslash.arrow'
-      '4':
-        'name': 'constant.character.escape.double-quote.arrow'
-      '5':
-        'name': 'constant.character.escape.single-quote.arrow'
-      '6':
-        'name': 'constant.character.escape.bell.arrow'
-      '7':
-        'name': 'constant.character.escape.backspace.arrow'
-      '8':
-        'name': 'constant.character.escape.formfeed.arrow'
-      '9':
-        'name': 'constant.character.escape.linefeed.arrow'
-      '10':
-        'name': 'constant.character.escape.return.arrow'
-      '11':
-        'name': 'constant.character.escape.tab.arrow'
-      '12':
-        'name': 'constant.character.escape.vertical-tab.arrow'
-    'match': '(\\\\x[0-9A-Fa-f]{2})|(\\\\\\n)|(\\\\\\\\)|(\\\\\\")|(\\\\\')|(\\\\a)|(\\\\b)|(\\\\f)|(\\\\n)|(\\\\r)|(\\\\t)|(\\\\v)'
-
-  'string_quoted_double':
-    'patterns': [
-      {
-        'begin': '(")'
+        'begin': '\\s*(=)\\s*'
         'beginCaptures':
-          '1':
-            'name': 'punctuation.definition.string.begin.arrow'
-        'end': '((?<=")(")|")|(\\n)'
-        'endCaptures':
-          '1':
-            'name': 'punctuation.definition.string.end.arrow'
-          '2':
-            'name': 'meta.empty-string.double.arrow'
-          '3':
-            'name': 'invalid.illegal.unclosed-string.arrow'
-        'name': 'string.quoted.double.single-line.arrow'
+          '1': 'name': 'punctuation.operator.arrow'
+        'end': '(?=;|$)'
         'patterns': [
           {
-            'include': '#escaped_char'
+            'include': "$self"
           }
         ]
       }
     ]
-
-  'string_quoted_single':
-    'patterns': [
-      {
-        'begin': '(\')'
-        'beginCaptures':
-          '1':
-            'name': 'punctuation.definition.string.begin.arrow'
-        'end': '((?<=\')(\')|\')|(\\n)'
-        'endCaptures':
-          '1':
-            'name': 'punctuation.definition.string.end.arrow'
-          '2':
-            'name': 'meta.empty-string.double.arrow'
-          '3':
-            'name': 'invalid.illegal.unclosed-string.arrow'
-        'name': 'string.quoted.double.single-line.arrow'
-        'patterns': [
-          {
-            'include': '#escaped_char'
-          }
-        ]
-      }
-    ]
-
-  'entity_name':
-    'patterns': [
-      {
-        'include': '#illegal_names'
-      }
-      {
-        'include': '#generic_name'
-      }
-    ]
-
-  'generic_name':
-    'match': '[A-Za-z_][A-Za-z0-9_]*'
-
-  'illegal_names':
-    'match': '\\b(and|as|break|class|continue|def|else|for|from|global|if|import|in|is|not|or|return|while|until|unless|loop|yield)\\b'
-    'name': 'invalid.illegal.name.arrow'

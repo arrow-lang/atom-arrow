@@ -1,4 +1,4 @@
-'.source.as':
+'.source.arrow':
   'editor':
     'commentStart': '// '
     'increaseIndentPattern': '(?x)
