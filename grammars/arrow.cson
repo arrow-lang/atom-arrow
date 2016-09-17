@@ -5,22 +5,28 @@
 'name': 'Arrow'
 'patterns': [
   {
-    'include': '#comment_line'
+    'include': '#comment'
   }
   {
-    'include': '#literal_integer'
+    'include': '#real'
   }
   {
-    'include': '#literal_bool'
+    'include': '#integer'
+  }
+  {
+    'include': '#bool'
   }
   {
     'include': '#variable'
+  }
+  {
+    'include': '#type_builtin'
   }
 ]
 
 'repository':
   # Line Comment `// ...`
-  'comment_line':
+  'comment':
     'begin': '(^[ \\t]+)?(?=//)'
     'beginCaptures':
       '1':
@@ -37,7 +43,7 @@
       }
     ]
   # Integer
-  'literal_integer':
+  'integer':
     'patterns': [
       # Integer: Hexadecimal
       {
@@ -60,16 +66,37 @@
         'name': 'constant.numeric.integer.octal.arrow'
       }
     ]
+  # Real
+  'real':
+    'patterns': [
+      {
+        'match': '\\b(?i:(\\d+\\.\\d*(e[\\-\\+]?\\d+)?))(?=[^a-zA-Z_])'
+        'name': 'constant.numeric.float.arrow'
+      }
+      {
+        'match': '(?<=[^0-9a-zA-Z_])(?i:(\\.\\d+(e[\\-\\+]?\\d+)?))'
+        'name': 'constant.numeric.float.arrow'
+      }
+      {
+        'match': '\\b(?i:(\\d+e[\\-\\+]?\\d+))'
+        'name': 'constant.numeric.float.arrow'
+      }
+    ]
   # Boolean: true | false
-  'literal_bool':
+  'bool':
     'match': '\\b(true|false)\\b'
     'name': 'constant.language.boolean.$1.arrow'
+  # Type (builtin)
+  'type_builtin':
+    'match': '\\b(float(32|64)|u?int(8|16|32|64|128)|bool|str)\\b'
+    'name': 'support.type.arrow'
   # Variable
   'variable':
-    'begin': '^\\s*(let)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
+    'begin': '^\\s*(let)(?:\\s+(mutable))?\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
     'beginCaptures':
       '1': 'name': 'keyword.let.arrow'
-      '2': 'name': 'variable.other.arrow'
+      '2': 'name': 'storage.modifier.mutable.arrow'
+      '3': 'name': 'variable.other.arrow'
     'end': '(?=;|$)'
     'patterns': [
       {
