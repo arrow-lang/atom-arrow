@@ -29,7 +29,6 @@
     'include': '#import'
   }
 ]
-
 'repository':
   # Line Comment `// ...`
   'comment':
