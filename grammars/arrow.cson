@@ -5,6 +5,9 @@
 'name': 'Arrow'
 'patterns': [
   {
+    'include': '#string'
+  }
+  {
     'include': '#comment'
   }
   {
@@ -21,6 +24,9 @@
   }
   {
     'include': '#type_builtin'
+  }
+  {
+    'include': '#import'
   }
 ]
 
@@ -90,6 +96,75 @@
   'type_builtin':
     'match': '\\b(float(32|64)|u?int(8|16|32|64|128)|bool|str)\\b'
     'name': 'support.type.arrow'
+  # String
+  'string':
+    'begin': '(")'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.definition.string.begin.arrow'
+    'end': '((?<=")(")|")|(\\n)'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.definition.string.end.arrow'
+      '2':
+        'name': 'meta.empty-string.double.arrow'
+      '3':
+        'name': 'invalid.illegal.unclosed-string.arrow'
+    'name': 'string.quoted.double.single-line.unicode.arrow'
+    'patterns': [
+      {
+        'include': '#escaped_char'
+      }
+      {
+        'match': '\\\\.'
+        'name': 'invalid.illegal.invalid-character-escape.arrow'
+      }
+    ]
+  'escaped_char':
+    'captures':
+      '1':
+        'name': 'constant.character.escape.hex.arrow'
+      '2':
+        'name': 'constant.character.escape.octal.arrow'
+      '3':
+        'name': 'constant.character.escape.newline.arrow'
+      '4':
+        'name': 'constant.character.escape.backlash.arrow'
+      '5':
+        'name': 'constant.character.escape.double-quote.arrow'
+      '6':
+        'name': 'constant.character.escape.single-quote.arrow'
+      '7':
+        'name': 'constant.character.escape.bell.arrow'
+      '8':
+        'name': 'constant.character.escape.backspace.arrow'
+      '9':
+        'name': 'constant.character.escape.formfeed.arrow'
+      '10':
+        'name': 'constant.character.escape.linefeed.arrow'
+      '11':
+        'name': 'constant.character.escape.return.arrow'
+      '12':
+        'name': 'constant.character.escape.tab.arrow'
+      '13':
+        'name': 'constant.character.escape.vertical-tab.arrow'
+    'match': '(\\\\x[0-9A-Fa-f]{2})|(\\\\[0-7]{3})|(\\\\\\n)|(\\\\\\\\)|(\\\\\\")|(\\\\\')|(\\\\a)|(\\\\b)|(\\\\f)|(\\\\n)|(\\\\r)|(\\\\t)|(\\\\v)'
+  # Import
+  'import':
+    'begin': '^\\s*(import)'
+    'beginCaptures':
+      '1': 'name': 'keyword.import.arrow'
+    'end': '(?=\\n|//|;)'
+    'name': 'meta.import.arrow'
+    'patterns': [
+      {
+        'include': '#string'
+      }
+      {
+        'match': '\\b(as)\\b'
+        'name': 'keyword.as.arrow'
+      }
+    ]
   # Variable
   'variable':
     'begin': '^\\s*(let)(?:\\s+(mutable))?\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
