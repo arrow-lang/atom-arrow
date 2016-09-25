@@ -28,8 +28,31 @@
   {
     'include': '#import'
   }
+  {
+    'include': '#keywords'
+  }
 ]
 'repository':
+  # Keywords
+  'keywords':
+    'patterns': [
+      {
+        'match': '\\b(if|else)\\b'
+        'name': 'keyword.control.conditional.arrow'
+      }
+      {
+        'match': '\\b(while)\\b'
+        'name': 'keyword.control.repeat.arrow'
+      }
+      {
+        'match': '\\b(break|continue|return)\\b'
+        'name': 'keyword.control.statement.arrow'
+      }
+      {
+        'match': '\\b(let)\\b'
+        'name': 'keyword.$1.arrow'
+      }
+    ]
   # Line Comment `// ...`
   'comment':
     'begin': '(^[ \\t]+)?(?=//)'
