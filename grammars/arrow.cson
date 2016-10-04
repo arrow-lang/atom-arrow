@@ -20,7 +20,16 @@
     'include': '#bool'
   }
   {
+    'include': '#block'
+  }
+  {
     'include': '#variable'
+  }
+  {
+    'include': '#function'
+  }
+  {
+    'include': '#call'
   }
   {
     'include': '#type_builtin'
@@ -49,7 +58,7 @@
         'name': 'keyword.control.statement.arrow'
       }
       {
-        'match': '\\b(let)\\b'
+        'match': '\\b(let|def)\\b'
         'name': 'keyword.$1.arrow'
       }
     ]
@@ -217,5 +226,72 @@
             'include': "$self"
           }
         ]
+      }
+    ]
+  # Block
+  'block':
+    'begin': '(\\{)'
+    'beginCaptures':
+      '1': 'name': 'punctuation.section.block.begin.arrow'
+    'end': '(\\})'
+    'endCaptures':
+      '1': 'name': 'punctuation.section.block.end.arrow'
+    'patterns': [
+      {
+        'include': "$self"
+      }
+    ]
+  # Function (Call)
+  'call':
+    'match': '([A-Za-z_][A-Za-z_0-9]*)\\s*(?=\\()'
+    'captures':
+      '1': 'name': 'entity.name.function.arrow'
+  # Function (Declaration)
+  'function':
+    'begin': '^\\s*(def)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
+    'beginCaptures':
+      '1': 'name': 'keyword.def.arrow'
+      '2': 'name': 'entity.name.function.arrow'
+    'end': '(\\})'
+    'endCaptures':
+      '1': 'name': 'punctuation.section.function.end.arrow'
+    'name': 'meta.function.arrow'
+    'patterns': [
+      {
+        'begin': '\\G\\s*(\\()'
+        'beginCaptures':
+          '1': 'name': 'punctuation.definition.parameters.begin.arrow'
+        'end': '(\\))'
+        'endCaptures':
+          '1': 'name': 'punctuation.definition.parameters.end.arrow'
+        'patterns': [
+          {
+            'match': '([A-Za-z_][A-Za-z_0-9]*)\\s*(\\:)\\s*'
+            'captures':
+              '1': 'name': 'variable.parameter.function.arrow'
+              '2': 'name': 'punctuation.seperator.arrow'
+          }
+          {
+            'match': '(\\,)'
+            'name': 'punctuation.seperator.parameters.arrow'
+          }
+          {
+            'include': '$self'
+          }
+        ]
+      }
+      {
+        'begin': '(\\{)'
+        'beginCaptures':
+          '1': 'name': 'punctuation.section.function.begin.arrow'
+        'end': '(?=\\})'
+        'patterns': [
+          {
+            'include': "$self"
+          }
+        ]
+      }
+      {
+        'include': '$self'
       }
     ]
