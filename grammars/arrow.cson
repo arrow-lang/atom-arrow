@@ -243,6 +243,7 @@
     ]
   # Function (Call)
   'call':
+    'name': 'meta.function-call.arrow'
     'match': '([A-Za-z_][A-Za-z_0-9]*)\\s*(?=\\()'
     'captures':
       '1': 'name': 'entity.name.function.arrow'
