@@ -58,7 +58,7 @@
         'name': 'keyword.control.statement.arrow'
       }
       {
-        'match': '\\b(let|def)\\b'
+        'match': '\\b(let|def|as|struct|implement|mutable)\\b'
         'name': 'keyword.$1.arrow'
       }
     ]
