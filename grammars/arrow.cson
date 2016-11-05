@@ -23,13 +23,13 @@
     'include': '#block'
   }
   {
+    'include': '#type'
+  }
+  {
     'include': '#variable'
   }
   {
     'include': '#function'
-  }
-  {
-    'include': '#call'
   }
   {
     'include': '#type_builtin'
@@ -39,6 +39,12 @@
   }
   {
     'include': '#keywords'
+  }
+  # {
+  #   'include': '#call'
+  # }
+  {
+    'include': '#preprocessor'
   }
 ]
 'repository':
@@ -58,7 +64,11 @@
         'name': 'keyword.control.statement.arrow'
       }
       {
-        'match': '\\b(let|def|as|struct|implement|mutable)\\b'
+        'match': '\\b(and|or|not)\\b'
+        'name': 'keyword.logical.arrow'
+      }
+      {
+        'match': '\\b(let|def|as|struct|implement|mutable|extern)\\b'
         'name': 'keyword.$1.arrow'
       }
     ]
@@ -77,6 +87,24 @@
             'name': 'punctuation.definition.comment.arrow'
         'end': '\\n'
         'name': 'comment.line.arrow'
+      }
+    ]
+  # Preprocessor
+  'preprocessor':
+    'name': 'meta.preprocessor.arrow'
+    'patterns': [
+      {
+        'match': '(#include)\\s*(")([^"$\\n]*)(")'
+        'captures':
+          '1': 'name': 'keyword.control.preprocessor.arrow'
+          '2': 'name': 'punctuation.definition.string.begin.arrow'
+          '3': 'name': 'string.quoted.double.preprocessor.arrow'
+          '4': 'name': 'punctuation.definition.string.end.arrow'
+        'name': 'meta.preprocessor.include.arrow'
+      }
+      {
+        'match': '\\b(#include)\\b'
+        'name': 'meta.preprocessor.$1.arrow'
       }
     ]
   # Integer
@@ -196,13 +224,27 @@
         'name': 'keyword.as.arrow'
       }
     ]
+  # Type (Alias)
+  'type':
+    'begin': '^\\s*(type)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*(=)\\s*'
+    'end': '(?=\\n|$|;)'
+    'beginCaptures':
+      '1': 'name': 'keyword.type.arrow'
+      '2': 'name': 'entity.name.type.arrow'
+      '3': 'name': 'punctuation.operator.arrow'
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
   # Variable
   'variable':
-    'begin': '^\\s*(let)(?:\\s+(mutable))?\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
+    'begin': '^\\s*(extern)?\\s*(let)(?:\\s+(mutable))?\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
     'beginCaptures':
-      '1': 'name': 'keyword.let.arrow'
-      '2': 'name': 'storage.modifier.mutable.arrow'
-      '3': 'name': 'variable.other.arrow'
+      '1': 'name': 'keyword.extern.arrow'
+      '2': 'name': 'keyword.let.arrow'
+      '3': 'name': 'storage.modifier.mutable.arrow'
+      '4': 'name': 'variable.other.arrow'
     'end': '(?=;|$)'
     'patterns': [
       {
@@ -242,11 +284,11 @@
       }
     ]
   # Function (Call)
-  'call':
-    'name': 'meta.function-call.arrow'
-    'match': '([A-Za-z_][A-Za-z_0-9]*)\\s*(?=\\()'
-    'captures':
-      '1': 'name': 'entity.name.function.arrow'
+  # 'call':
+  #   'name': 'meta.function-call.arrow'
+  #   'match': '([A-Za-z_][A-Za-z_0-9]*)\\s*(?=\\()'
+  #   'captures':
+  #     '1': 'name': 'entity.name.function.arrow'
   # Function (Declaration)
   'function':
     'begin': '^\\s*(?:(extern)\\s*(\\"[^\\"]*\\")?\\s*)?\\s*(def)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
