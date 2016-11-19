@@ -32,6 +32,9 @@
     'include': '#function'
   }
   {
+    'include': '#struct'
+  }
+  {
     'include': '#type_builtin'
   }
   {
@@ -39,6 +42,9 @@
   }
   {
     'include': '#keywords'
+  }
+  {
+    'include': '#symbols'
   }
   # {
   #   'include': '#call'
@@ -48,6 +54,14 @@
   }
 ]
 'repository':
+  # Symbols
+  'symbols':
+    'patterns': [
+      {
+        'match': '(\\;)'
+        'name': 'punctuation.terminator.arrow'
+      }
+    ]
   # Keywords
   'keywords':
     'patterns': [
@@ -68,7 +82,7 @@
         'name': 'keyword.logical.arrow'
       }
       {
-        'match': '\\b(let|def|as|struct|implement|mutable|extern)\\b'
+        'match': '\\b(let|def|as|struct|type|implement|mutable|extern|private|public)\\b'
         'name': 'keyword.$1.arrow'
       }
     ]
@@ -283,6 +297,38 @@
         'include': "$self"
       }
     ]
+  # Structure
+  'struct':
+    'begin': '^\\s*(struct)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
+    'beginCaptures':
+      '1': 'name': 'keyword.struct.arrow'
+      '2': 'name': 'entity.name.class.arrow'
+    'end': '(\\})'
+    'endCaptures':
+      '1': 'name': 'punctuation.section.struct.end.arrow'
+    'name': 'meta.struct.arrow'
+    'patterns': [
+      {
+        'begin': '(\\{)'
+        'beginCaptures':
+          '1': 'name': 'punctuation.definition.struct.begin.arrow'
+        'end': '(?=\\})'
+        'patterns': [
+          {
+            'match': '([A-Za-z_][A-Za-z_0-9]*)\\s*(\\:)\\s*'
+            'captures':
+              '1': 'name': 'entity.name.other.arrow'
+              '2': 'name': 'punctuation.seperator.arrow'
+          }
+          {
+            'include': '$self'
+          }
+        ]
+      }
+      {
+        'include': '$self'
+      }
+    ]
   # Function (Call)
   # 'call':
   #   'name': 'meta.function-call.arrow'
@@ -291,19 +337,33 @@
   #     '1': 'name': 'entity.name.function.arrow'
   # Function (Declaration)
   'function':
-    'begin': '^\\s*(?:(extern)\\s*(\\"[^\\"]*\\")?\\s*)?\\s*(def)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
+    'begin': '^\\s*(?:(extern)\\s*(\\"[^\\"]*\\")?\\s*)?\\s*(private|public)?\\s*(def)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
     'beginCaptures':
       '1': 'name': 'keyword.extern.arrow'
       '2': 'name': 'string.quoted.double.single-line.arrow'
-      '3': 'name': 'keyword.def.arrow'
-      '4': 'name': 'entity.name.function.arrow'
+      '3': 'name': 'keyword.$3.arrow'
+      '4': 'name': 'keyword.def.arrow'
+      '5': 'name': 'entity.name.function.arrow'
     'end': '(\\})'
     'endCaptures':
       '1': 'name': 'punctuation.section.function.end.arrow'
     'name': 'meta.function.arrow'
     'patterns': [
       {
-        'begin': '\\G\\s*(\\()'
+        'begin': '\\G(<)'
+        'beginCaptures':
+          '1': 'name': 'punctuation.definition.type_parameters.begin.arrow'
+        'end': '(>)'
+        'endCaptures':
+          '1': 'name': 'punctuation.definition.type_parameters.begin.arrow'
+        'patterns': [
+          {
+            'include': '$self'
+          }
+        ]
+      }
+      {
+        'begin': '(\\()'
         'beginCaptures':
           '1': 'name': 'punctuation.definition.parameters.begin.arrow'
         'end': '(\\))'
