@@ -35,6 +35,9 @@
     'include': '#struct'
   }
   {
+    'include': '#interface'
+  }
+  {
     'include': '#type_builtin'
   }
   {
@@ -70,7 +73,7 @@
         'name': 'keyword.control.conditional.arrow'
       }
       {
-        'match': '\\b(while)\\b'
+        'match': '\\b(while|for)\\b'
         'name': 'keyword.control.repeat.arrow'
       }
       {
@@ -82,25 +85,48 @@
         'name': 'keyword.logical.arrow'
       }
       {
-        'match': '\\b(let|def|as|struct|type|implement|mutable|extern|private|public)\\b'
+        'match': '\\b(self)\\b'
+        'name': 'variable.language.self.arrow'
+      }
+      {
+        'match': '\\b(Self)\\b'
+        'name': 'storage.type.self.arrow'
+      }
+      {
+        'match': '\\b(let|def|as|struct|type|implement|mutable|extern|private|public|interface)\\b'
         'name': 'keyword.$1.arrow'
       }
     ]
   # Line Comment `// ...`
   'comment':
-    'begin': '(^[ \\t]+)?(?=//)'
-    'beginCaptures':
-      '1':
-        'name': 'punctuation.whitespace.comment.leading.arrow'
-    'end': '(?!\\G)'
     'patterns': [
       {
-        'begin': '//'
+        'begin': '/\\*'
         'beginCaptures':
-          '0':
-            'name': 'punctuation.definition.comment.arrow'
-        'end': '\\n'
-        'name': 'comment.line.arrow'
+          '0': 'name': 'punctuation.definition.comment.begin.arrow'
+        'end': '\\*/'
+        'endCaptures':
+          '0': 'name': 'punctuation.definition.comment.end.arrow'
+        'name': 'comment.block.arrow'
+      }
+      {
+        'match': '\\*/.*\\n'
+        'name': 'invalid.illegal.stray-comment-end.arrow'
+      }
+      {
+        'begin': '(^[ \\t]+)?(?=//)'
+        'beginCaptures':
+          '1': 'name': 'punctuation.whitespace.comment.leading.arrow'
+        'end': '(?!\\G)'
+        'patterns': [
+          {
+            'begin': '//'
+            'beginCaptures':
+              '0': 'name': 'punctuation.definition.comment.arrow'
+            'end': '\\n'
+            'name': 'comment.line.arrow'
+          }
+        ]
       }
     ]
   # Preprocessor
@@ -297,6 +323,32 @@
         'include': "$self"
       }
     ]
+  # Interface
+  'interface':
+    'begin': '^\\s*(interface)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
+    'beginCaptures':
+      '1': 'name': 'keyword.interface.arrow'
+      '2': 'name': 'entity.name.class.arrow'
+    'end': '(\\})'
+    'endCaptures':
+      '1': 'name': 'punctuation.section.interface.end.arrow'
+    'name': 'meta.interface.arrow'
+    'patterns': [
+      {
+        'begin': '(\\{)'
+        'beginCaptures':
+          '1': 'name': 'punctuation.definition.interface.begin.arrow'
+        'end': '(?=\\})'
+        'patterns': [
+          {
+            'include': '$self'
+          }
+        ]
+      }
+      {
+        'include': '$self'
+      }
+    ]
   # Structure
   'struct':
     'begin': '^\\s*(struct)\\s+([A-Za-z_][A-Za-z_0-9]*)\\s*'
@@ -344,9 +396,10 @@
       '3': 'name': 'keyword.$3.arrow'
       '4': 'name': 'keyword.def.arrow'
       '5': 'name': 'entity.name.function.arrow'
-    'end': '(\\})'
+    'end': '(\\})|(;)'
     'endCaptures':
       '1': 'name': 'punctuation.section.function.end.arrow'
+      '2': 'name': 'punctuation.terminator.arrow'
     'name': 'meta.function.arrow'
     'patterns': [
       {
